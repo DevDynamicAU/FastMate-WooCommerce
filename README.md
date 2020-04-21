@@ -1,0 +1,1 @@
+eiz-woocommerce-shipping-calculator
