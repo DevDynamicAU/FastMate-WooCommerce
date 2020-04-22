@@ -48,7 +48,6 @@ if (!class_exists('Eiz_Shipping_Method')) {
             $this->init_form_fields();
             $this->init_settings();
             add_action('woocommerce_update_options_shipping_' . $this->id, array($this, 'process_admin_options'));
-            add_action('update_option_woocommerce_eiz_settings', array($this, 'clear_session'), 10, 2);
             add_action('woocommerce_update_options_shipping_eiz', array($this, 'saveOptions'));
         }
 
@@ -56,17 +55,6 @@ if (!class_exists('Eiz_Shipping_Method')) {
         {
             $settings_tabs['shipping&section=eiz'] = __('Eiz', 'eiz-shipping');
             return $settings_tabs;
-        }
-
-        /**
-         * Clear session when option save
-         *
-         * @access public
-         * @return void
-         */
-        public function clear_session($old_value, $new_value)
-        {
-            $_SESSION['access_token'] = null;
         }
 
         public function saveOptions()
@@ -82,23 +70,23 @@ if (!class_exists('Eiz_Shipping_Method')) {
             }
 
             if (isset($_POST['woocommerce_eiz_' . $token_option])) {
-                update_option($token_option, $_POST['woocommerce_eiz_' . $token_option]);
-                $value['woocommerce_eiz_' . $token_option] = $_POST['woocommerce_eiz_' . $token_option];
+                update_option($token_option, sanitize_text_field($_POST['woocommerce_eiz_' . $token_option]));
+                $value['woocommerce_eiz_' . $token_option] = sanitize_text_field($_POST['woocommerce_eiz_' . $token_option]);
             }
 
             $add_up_mode_option = 'woocommerce_eiz_add_up_mode';
             if (isset($_POST[$add_up_mode_option])) {
-                $value[$add_up_mode_option] = $_POST[$add_up_mode_option];
+                $value[$add_up_mode_option] = sanitize_text_field($_POST[$add_up_mode_option]);
             }
 
             $add_up_value_option = 'woocommerce_eiz_add_up_value';
             if (isset($_POST[$add_up_value_option])) {
-                $value[$add_up_value_option] = $_POST[$add_up_value_option];
+                $value[$add_up_value_option] = sanitize_text_field($_POST[$add_up_value_option]);
             }
 
             $skip_couriers = 'woocommerce_eiz_skip_couriers';
             if (isset($_POST[$skip_couriers])) {
-                $value[$skip_couriers] = $_POST[$skip_couriers];
+                $value[$skip_couriers] = sanitize_text_field($_POST[$skip_couriers]);
             }
 
             update_option($option_key, serialize($value));

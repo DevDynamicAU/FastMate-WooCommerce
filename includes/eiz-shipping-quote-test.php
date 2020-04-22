@@ -45,7 +45,7 @@ function eiz_shipping_quote_test(){
 	<?php
 	if(key_exists('quote_test_nonce', $_POST)) {
 		if (wp_verify_nonce($_POST['quote_test_nonce'], basename(__FILE__))){
-			$weights = $_POST['weights'];
+			$weights = sanitize_text_field($_POST['weights']);
 			$total_weight = 0;
 			foreach ($weights as $weight) {
 				$total_weight += $weight;
@@ -57,8 +57,8 @@ function eiz_shipping_quote_test(){
             try {
                 Eiz_Shipping_API::init(get_token());
                 $destination = [
-                	'city' => $_POST['suburb'],
-                	'postcode' => $_POST['postcode'],
+                	'city' => sanitize_text_field($_POST['suburb']),
+                	'postcode' => sanitize_text_field($_POST['postcode']),
                 	'country' => 'AU'
                 ];
                 $items = [['weight' => $total_weight, 'qty' => 1, 'length' => 0, 'height' => 0, 'width' => 0]];

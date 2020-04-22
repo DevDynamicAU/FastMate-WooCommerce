@@ -29,21 +29,12 @@ if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_
              */
             public function __construct()
             {
-                add_action('init', array($this, 'register_session'));
-                add_action('woocommerce_shipping_init', array($this, 'init'));
+				add_action('woocommerce_shipping_init', array($this, 'init'));
                 add_filter('plugin_action_links_' . plugin_basename(__FILE__), array($this, 'plugin_action_links'));
                 include_once 'includes/eiz-shipping-quote-test.php';
                 //add_action('admin_menu', array($this, 'quote_test_menu'));
             }
 
-            /**
-             *  Register a session
-             */
-            public function register_session()
-            {
-                if (!session_id())
-                    session_start();
-            }
             
             /**
              * Initialize the plugin
