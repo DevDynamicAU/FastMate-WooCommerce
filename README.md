@@ -11,7 +11,7 @@ Eiz WooCommerce Shipping Rates helps sellers process online orders faster and sa
 
 == Description ==
 
-EIZ connects your online stores to the best shipping carriers and automates the pick, pack, and shipping processes. EIZ helps you save time and money, and it reduces errors in your fulfillment processes.
+EIZ connects your online stores to the best shipping carriers and automates the pick, pack, and shipping processes. EIZ helps you save time and money, and it reduces errors in your fulfilment processes.
 
 == Installation ==
 
