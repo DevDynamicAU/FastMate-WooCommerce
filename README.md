@@ -1,3 +1,4 @@
+todo fix up the ReadMe
 === Eiz WooCommerce Shipping Rates ===
 Contributors: Zeta Digital
 Tags: eiz, shipping, shipping rates, shipping price, dynamic shipping, shipping calculator
