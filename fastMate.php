@@ -81,7 +81,13 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 													'title' => __( 'Flat Rate', $this->id ),
 													'type' => 'decimal',
 													'description' => __( 'This is the default rate if the Fastway API returns no route, but you still want to give a shipping price', $this->id ),
-													'default' => 13
+													'default' => 13.95
+												),
+												'maxRate' => array(
+													'title' => __( 'Max Freight Rate', $this->id ),
+													'type' => 'decimal',
+													'description' => __( 'This is the maximum freight that a customer is charged, regardless of what the Fastway API returns.', $this->id ),
+													'default' => 13.95
 												),
 												'weight' => array(
 													'title' => __( 'Weight (kg)', $this->id ),
@@ -301,7 +307,9 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 			$myShippingMethod->showDebugNotice('running custom rate cost calc', 'notice');
 		}
 
+		// Get the flat rate and max rate from the settings
 		$flatRate = floatval($myShippingMethod->settings['flatRate']);
+		$maxRate = floatval($myShippingMethod->settings['maxRate']);
 		$weight = 0;
 		$cost = 0;
 		
@@ -345,6 +353,9 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 			$cheapestService = $result->cheapest_service;
 			$apiCost = floatval($cheapestService[0]->totalprice_normal);
 			$cost = $apiCost == 0 ? $flatRate : $apiCost;
+
+			// If the cost we got is greater than the maximum we allow, use the max, else use the cost we calculated.
+			$cost = $cost > $maxRate ? $maxRate : $cost;
 
 			if ( $myShippingMethod->isDebugEnabled() ) {
 				$myShippingMethod->showDebugNotice('Got a new cost of ' . $cost . ' from the API', 'notice');
