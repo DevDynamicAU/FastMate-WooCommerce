@@ -3,7 +3,7 @@
 /**
  * Plugin Name: FastMate Shipping
  * Description: Custom Shipping Method for WooCommerce that supports Fastway Couriers.
- * Version: 1.0.0
+ * Version: 1.1.0
  * Author: DevDynamic
  * Author URI: https://devdynamic.com.au
  * License: GPL-3.0+
@@ -242,57 +242,57 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 		// Set the result to the same suburb as we had passed in. The switch below will only update it if the postcode is one that we need to update.
 		$result = $suburb;
 		$sthRockySuburbs = array(
-			"Allenstown",
-			"Depot Hill",
-			"Fairy Bower",
-			"Great Keppel Island",
-			"Port Curtis",
-			"Rockhampton",
-			"Rockhampton Dc",
-			"Rockhampton City",
-			"Rockhampton Hospital",
-			"The Keppels",
-			"The Range",
-			"Wandal",
-			"West Rockhampton"
+			"allenstown",
+			"depot hill",
+			"fairy bower",
+			"great keppel island",
+			"port curtis",
+			"rockhampton",
+			"rockhampton dc",
+			"rockhampton city",
+			"rockhampton hospital",
+			"the keppels",
+			"the range",
+			"wandal",
+			"west rockhampton"
 		);
 
 		$nthRockySuburbs = array(
-			"Berserker",
-			"Cnetral Queensland University",
-			"Frenchville",
-			"Greenlake",
-			"IronPot",
-			"Kawana",
-			"Koongal",
-			"Lakes Creek",
-			"Limestone Creek",
-			"Mount Archer",
-			"Nankin",
-			"Nerimbera",
-			"Norman Gardens",
-			"Park Avenue",
-			"Red Hill Rockhampton",
-			"Red Hill",
-			"Rockhampton Dc",
-			"Rockhampton",
-			"Rockyview",
-			"Sandringham",
-			"The Common"
+			"berserker",
+			"central queensland university",
+			"cqu",
+			"frenchville",
+			"greenlake",
+			"ironpot",
+			"kawana",
+			"koongal",
+			"lakes creek",
+			"limestone creek",
+			"mount archer",
+			"nankin",
+			"nerimbera",
+			"norman gardens",
+			"park avenue",
+			"red hill rockhampton",
+			"red hill",
+			"rockhampton dc",
+			"rockhampton",
+			"rockyview",
+			"sandringham",
+			"the Common"
 		);
 
-		// ques do we just check that the suburb is in the above lists?
 		switch ($postCode) {
 			case 4700:
 					// The suburb being searched for is not a valid one for the region.
 					// Set the returned suburb to be blank so the flat rate should apply.
-					$result = in_array($suburb, $sthRockySuburbs) ? "Rockhampton" : "";
+					$result = in_array(strtolower($suburb), $sthRockySuburbs) ? "Rockhampton" : "";
 				break;
 
 			case 4701:
 					// The suburb being searched for is not a valid one for the region.
 					// Set the returned suburb to be blank so the flat rate should apply.
-					$result = in_array($suburb, $nthRockySuburbs) ? "Rockhampton Dc" : "";
+					$result = in_array(strtolower($suburb), $nthRockySuburbs) ? "Rockhampton Dc" : "";
 				break;
 		}
 
@@ -355,7 +355,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 			if ( $myShippingMethod->isDebugEnabled() ) {
 				$myShippingMethod->showDebugNotice('cheapestService : ' . $cheapestService, 'notice');
 			}
-			
+
 			$apiCost = floatval($cheapestService[0]->totalprice_normal);
 
 			if ($apiCost == 0 ) {
