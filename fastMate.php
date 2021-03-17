@@ -351,11 +351,36 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 			$result = $result->result;
 			
 			$cheapestService = $result->cheapest_service;
+
+			if ( $myShippingMethod->isDebugEnabled() ) {
+				$myShippingMethod->showDebugNotice('cheapestService : ' . $cheapestService, 'notice');
+			}
+			
 			$apiCost = floatval($cheapestService[0]->totalprice_normal);
-			$cost = $apiCost == 0 ? $flatRate : $apiCost;
+
+			if ($apiCost == 0 ) {
+				if ( $myShippingMethod->isDebugEnabled() ) {
+					$myShippingMethod->showDebugNotice('Setting the cost to the flat rate as it was 0.', 'notice');
+				}
+
+				$cost = $flatRate;
+			} else {
+
+				if ( $myShippingMethod->isDebugEnabled() ) {
+					$myShippingMethod->showDebugNotice('Setting the cost to apiCost of ' . $apiCost, 'notice');
+				}
+
+				$cost = $apiCost;
+			}
 
 			// If the cost we got is greater than the maximum we allow, use the max, else use the cost we calculated.
-			$cost = $cost > $maxRate ? $maxRate : $cost;
+			if ( $cost > $maxRate ) {
+				if ( $myShippingMethod->isDebugEnabled() ) {
+					$myShippingMethod->showDebugNotice('Resetting ' . $cost . ' to the max rate', 'notice');
+				}
+
+				$cost = $maxRate;
+			}
 
 			if ( $myShippingMethod->isDebugEnabled() ) {
 				$myShippingMethod->showDebugNotice('Got a new cost of ' . $cost . ' from the API', 'notice');
